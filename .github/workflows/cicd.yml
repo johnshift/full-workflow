@@ -47,6 +47,9 @@ jobs:
       - name: Echo contains api
         run: echo "contains api = `${{ contains(steps.c-api.outputs.all_changed_and_modified_files, 'api') }}`"
 
+      - name: Echo contains api
+        run: echo "contains api = `${{ contains(steps.c-api.outputs.all_changed_and_modified_files, 'web') }}`"
+
       # - name: Echo any_change in web
       #   run: echo "web any_change = `${{ steps.c-web.outputs.any_changed }}`"
 
