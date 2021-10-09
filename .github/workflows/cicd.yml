@@ -210,7 +210,7 @@ jobs:
       - name: Change deployed url ENV
         uses: hmanzur/actions-set-secret@v2.0.0
         with:
-          name: 'VERCEL_TESTING_URL'
+          name: 'VERCEL_TESTING_URLx'
           value: 'google.com'
           token: ${{ secrets.PAT }}
 
@@ -234,7 +234,7 @@ jobs:
       #     ref: ${{ steps.extract-branch.outputs.branch }}
 
       - name: test curl updated secret
-        run: curl ${{ secrets.VERCEL_TESTING_URL }}
+        run: curl ${{ secrets.VERCEL_TESTING_URLx }}
 
       # - name: Setup Node
       #   uses: actions/setup-node@v2
