@@ -339,6 +339,7 @@ jobs:
             - close <issue_#_link>
           pr_assignee: "johnshift"
           pr_label: "pull request"
+<<<<<<< HEAD
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
 <<<<<<< HEAD
@@ -433,3 +434,6 @@ jobs:
           #       Therefore you need to use "FRONTEND_URL" when accessing from inside the app.  
           HD_FRONTEND_URL: ${{ secrets.VERCEL_PRODUCTION_URL }}
 >>>>>>> init deploy production
+=======
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+>>>>>>> cleanup cicd.yml
