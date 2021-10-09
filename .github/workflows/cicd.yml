@@ -286,7 +286,7 @@ jobs:
   create-pull-request:
     name: "Create pull request"
     runs-on: ubuntu-latest
-    needs: [deploy-heroku-staging, deploy-vercel-staging]
+    # needs: [deploy-heroku-staging, deploy-vercel-staging]
     steps:
       - name: Extract branch name
         shell: bash
