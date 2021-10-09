@@ -41,10 +41,14 @@ jobs:
 
   api-tests:
 <<<<<<< HEAD
+<<<<<<< HEAD
     name: Api Unit + Integration
 =======
     name: Api CI Tests
 >>>>>>> uncomment code
+=======
+    name: Api Unit + Integration
+>>>>>>> trigger whole workflow
     needs: [detect-changes]
     if: needs.detect-changes.outputs.api == 'true'
     runs-on: ubuntu-latest
@@ -75,10 +79,14 @@ jobs:
 
   web-tests:
 <<<<<<< HEAD
+<<<<<<< HEAD
     name: Web Unit + Integration
 =======
     name: Web CI Tests
 >>>>>>> uncomment code
+=======
+    name: Web Unit + Integration
+>>>>>>> trigger whole workflow
     needs: [detect-changes]
     if: needs.detect-changes.outputs.web == 'true'
     runs-on: ubuntu-latest
@@ -106,10 +114,14 @@ jobs:
    
   deploy-vercel:
 <<<<<<< HEAD
+<<<<<<< HEAD
     name: Deploy Web to Vercel
 =======
     name: Deploy web to Vercel
 >>>>>>> uncomment code
+=======
+    name: Deploy Web to Vercel
+>>>>>>> trigger whole workflow
     runs-on: ubuntu-latest
     needs: [web-tests]
     environment:
@@ -144,10 +156,14 @@ jobs:
 
   deploy-heroku:
 <<<<<<< HEAD
+<<<<<<< HEAD
     name: Deploy Api to Heroku
 =======
     name: Deploy api to Heroku
 >>>>>>> uncomment code
+=======
+    name: Deploy Api to Heroku
+>>>>>>> trigger whole workflow
     runs-on: ubuntu-latest
     needs: [api-tests]
     environment:
@@ -225,10 +241,14 @@ jobs:
 
   deploy-vercel-staging:
 <<<<<<< HEAD
+<<<<<<< HEAD
     name: Web STAGING
 =======
     name: Vercel STAGING
 >>>>>>> uncomment code
+=======
+    name: Web STAGING
+>>>>>>> trigger whole workflow
     runs-on: ubuntu-latest
     needs: [e2e-tests]
     environment:
@@ -267,8 +287,12 @@ jobs:
     name: Api STAGING
 =======
   deploy-heroku-staging:
+<<<<<<< HEAD
     name: Heroku STAGING
 >>>>>>> uncomment code
+=======
+    name: Api STAGING
+>>>>>>> trigger whole workflow
     runs-on: ubuntu-latest
     needs: [e2e-tests]
     environment:
