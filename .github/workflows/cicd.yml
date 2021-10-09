@@ -203,27 +203,29 @@ jobs:
     name: Fake deploy vercel
     runs-on: ubuntu-latest
     steps:
-      - name: Extract branch name
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        id: extract-branch
-      - name: echo branch
-        run: echo "branch = `${{ steps.extract-branch.outputs.branch }}`"
-      - name: Checkout API Branch
-        uses: actions/checkout@v2
-        with:
-          ref: ${{ steps.extract-branch.outputs.branch }}
+      - name: succeeds
+        run: echo "succeed"
+      # - name: Extract branch name
+      #   shell: bash
+      #   run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+      #   id: extract-branch
+      # - name: echo branch
+      #   run: echo "branch = `${{ steps.extract-branch.outputs.branch }}`"
+      # - name: Checkout API Branch
+      #   uses: actions/checkout@v2
+      #   with:
+      #     ref: ${{ steps.extract-branch.outputs.branch }}
       
-      - name: "Write preview-url if deployment succeeded"
-        run: |
-          echo "hello" > vercel-preview-url.txt
+      # - name: "Write preview-url if deployment succeeded"
+      #   run: |
+      #     echo "hello" > vercel-preview-url.txt
 
-      - name: 'Upload Artifact'
-        uses: actions/upload-artifact@v2
-        with:
-          name: vercel-preview-url
-          path: vercel-preview-url.txt
-          retention-days: 1
+      # - name: 'Upload Artifact'
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: vercel-preview-url
+      #     path: vercel-preview-url.txt
+      #     retention-days: 1
 
   e2e-tests:
     name:  End-to-End Tests
@@ -250,10 +252,8 @@ jobs:
           name: vercel-preview-url
           workflow: cicd.yml # workflow name
           branch: ${{ steps.extract-branch.outputs.branch }}
-      - name: install tree
-        run: sudo apt install tree -y
-      - name: echo directory
-        run: tree -aL 2
+      - name: check contents of artifact
+        run: cat vercel-preview-url.txt
 
       # - name: Setup Node
       #   uses: actions/setup-node@v2
