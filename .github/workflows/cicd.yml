@@ -133,7 +133,12 @@ jobs:
   deploy-heroku:
     name: Deploy api to Heroku
     runs-on: ubuntu-latest
-    needs: [api-tests]
+    needs: [api-tests, deploy-vercel]
+    # deploy-heroku is always ran because it needs frontend URL in its app e.g. CORS requests, etc.,
+    # it should run after api-tests and deploy-vercel -> needs: [api-tests, deploy-vercel]
+    # should run if both didn't skip -> (needs.api-tests.result != 'skipped' && needs.deploy-vercel.result != 'skipped')
+    # should run if both didn't fail -> (needs.api-tests.result != 'failure' && needs.deploy-vercel.result != 'failure')
+    if: always() && (needs.api-tests.result != 'skipped' && needs.deploy-vercel.result != 'skipped') && (needs.api-tests.result != 'failure' && needs.deploy-vercel.result != 'failure')
     environment:
       name: api TESTING
       url: ${{ steps.set-url.outputs.url }}
