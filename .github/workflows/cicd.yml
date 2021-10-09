@@ -223,7 +223,7 @@ jobs:
 
   api-tests:
     name: Fake API Tests 
-    if: ${{ secrets.GITHUB_TOKEN != 'this token' }} # simulate skip
+    if: ${{ secrets.PAT != 'this token' }} # simulate skip
     runs-on: ubuntu-latest
     steps:
       - name: Success
