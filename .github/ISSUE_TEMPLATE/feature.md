@@ -7,12 +7,13 @@ assignees: johnshift
 
 ---
 
-## Feature: [<feature_name>](<link_to_branch_or_pr>)
-
 ## Description
 <add_description_here>
+<br/>
 
-## Tasks
+### Feature branch: [origin / <branch_name>](https://github.com/johnshift/offguard/tree/<branch_name>)
+
+### Tasks:
 - [ ] [<task_name>](<link_to_issue>)
 - [ ] [<task_name>](<link_to_issue>)
 - [ ] [<task_name>](<link_to_issue>)
