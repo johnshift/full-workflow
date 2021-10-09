@@ -10,9 +10,12 @@ jobs:
     name: Vercel PRODUCTION
     runs-on: ubuntu-latest
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     needs: [create-pull-request]
 >>>>>>> deploy to production only when pull request merged
+=======
+>>>>>>> removed deps on prod deploy
     environment:
       name: web PRODUCTION
       url: ${{ steps.deploy.outputs.preview-url }}
@@ -48,9 +51,12 @@ jobs:
     name: Heroku PRODUCTION
     runs-on: ubuntu-latest
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     needs: [create-pull-request]
 >>>>>>> deploy to production only when pull request merged
+=======
+>>>>>>> removed deps on prod deploy
     environment:
       name: api PRODUCTION
       url: https://offguard.herokuapp.com
