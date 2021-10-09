@@ -16,8 +16,8 @@ jobs:
     steps:
       - name: Echo branch name
         run: echo "now on branch '${GITHUB_REF#refs/heads/}'"
-        
+
       - name: Checkout repository feature branch
         uses: actions/checkout@v2
         with:
-          ref: ${GITHUB_REF#refs/heads/} 
+          ref: '${GITHUB_REF#refs/heads/}'
