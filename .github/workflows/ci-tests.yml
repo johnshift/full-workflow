@@ -14,10 +14,12 @@ jobs:
     name: Web Tests
     runs-on: ubuntu-latest
     steps:
-      - name: Echo branch name
-        run: echo "now on branch '${GITHUB_REF#refs/heads/}'"
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
 
       - name: Checkout repository feature branch
         uses: actions/checkout@v2
         with:
-          ref: '${GITHUB_REF#refs/heads/}'
+          ref: ${{ steps.extract_branch.outputs.branch }}
