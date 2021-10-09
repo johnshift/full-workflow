@@ -32,7 +32,7 @@ jobs:
         
       - name: List all added files in api
         run: |
-          for file in "${{ steps.changed-files-for-api.outputs.added_files }}"; do
+          for file in "${{ steps.changed-files-for-api.outputs.all_changed_and_modified_files }}"; do
             echo "`$file` was added"
           done
 
