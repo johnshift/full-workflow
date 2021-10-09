@@ -9,6 +9,10 @@ jobs:
     if: github.event.pull_request.merged == true
     name: Vercel PRODUCTION
     runs-on: ubuntu-latest
+<<<<<<< HEAD
+=======
+    needs: [create-pull-request]
+>>>>>>> deploy to production only when pull request merged
     environment:
       name: web PRODUCTION
       url: ${{ steps.deploy.outputs.preview-url }}
@@ -43,6 +47,10 @@ jobs:
     if: github.event.pull_request.merged == true
     name: Heroku PRODUCTION
     runs-on: ubuntu-latest
+<<<<<<< HEAD
+=======
+    needs: [create-pull-request]
+>>>>>>> deploy to production only when pull request merged
     environment:
       name: api PRODUCTION
       url: https://offguard.herokuapp.com
