@@ -295,6 +295,7 @@ jobs:
       - name: pull-request
         uses: repo-sync/pull-request@v2
         with:
+<<<<<<< HEAD
           destination_branch: "main"                      
           pr_title: "[PR] main <- ${{ steps.extract-branch.outputs.branch }}"
           pr_body: |
@@ -303,3 +304,20 @@ jobs:
           pr_assignee: "johnshift"
           pr_label: "pull request"
           github_token: ${{ secrets.GITHUB_TOKEN }}
+=======
+          fetch-depth: 0
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.PAT }}
+          commit-message: "[PR] main <- ${{ steps.extract-branch.outputs.branch }}"
+          # base: ${{ steps.extract-branch.outputs.branch }}
+          # branch: main
+          branch: ${{ steps.extract-branch.outputs.branch }}
+          title: "[PR] main <- ${{ steps.extract-branch.outputs.branch }}"
+          body: |
+            Automated PR
+          labels: |
+            pull request
+          assignees: johnshift
+>>>>>>> removed base in pull request action
