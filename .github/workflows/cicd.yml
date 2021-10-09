@@ -41,6 +41,12 @@ jobs:
       - name: Echo all changed/modified files
         run: echo "changed/modified = `${{ steps.c-api.outputs.all_changed_and_modified_files }}`"
 
+      - name: Echo any_changed files
+        run: echo "any_changed = `${{ steps.c-api.outputs.any_changed }}`"
+
+      - name: Echo contains api
+        run: echo "contains api = `${{ contains(steps.c-api.outputs.all_changed_and_modified_files, 'api') }}`"
+
       # - name: Echo any_change in web
       #   run: echo "web any_change = `${{ steps.c-web.outputs.any_changed }}`"
 
