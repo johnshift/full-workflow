@@ -25,22 +25,22 @@ jobs:
           fetch-depth: 0
       
       - name: Run changed-files with defaults on the dir1
-        id: changed-files-for-api
+        id: c-api
         uses: tj-actions/changed-files@v10
         with:
           path: api
 
-      - name: Run changed-files with defaults on the dir1
-        id: changed-files-for-web
-        uses: tj-actions/changed-files@v10
-        with:
-          path: web
+      # - name: Run changed-files with defaults on the dir1
+      #   id: c-web
+      #   uses: tj-actions/changed-files@v10
+      #   with:
+      #     path: web
         
       - name: Echo any_change in api
-        run: echo "api any_change = `${{ steps.changed-files-for-api.outputs.any_changed }}`"
+        run: echo "api any_change = `${{ steps.c-api.outputs.any_changed }}`"
 
-      - name: Echo any_change in web
-        run: echo "web any_change = `${{ steps.changed-files-for-web.outputs.any_changed }}`"
+      # - name: Echo any_change in web
+      #   run: echo "web any_change = `${{ steps.c-web.outputs.any_changed }}`"
 
 
       
