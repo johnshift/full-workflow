@@ -303,7 +303,6 @@ jobs:
           commit-message: "[PR] main <- ${{ steps.extract-branch.outputs.branch }}"
           base: main
           branch: ${{ steps.extract-branch.outputs.branch }}
-          delete-branch: true
           title: "[PR] main <- ${{ steps.extract-branch.outputs.branch }}"
           body: |
             Automated PR
