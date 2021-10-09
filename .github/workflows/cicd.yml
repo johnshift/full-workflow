@@ -251,8 +251,9 @@ jobs:
   deploy-heroku-staging:
     name: Heroku STAGING
     runs-on: ubuntu-latest
-    needs: [e2e-tests, deploy-vercel-staging]
-    if: always() && ( needs.e2e-tests.result == 'success' || needs.deploy-vercel-staging.result == 'success') && ( needs.e2e-tests.result != 'failure' && needs.deploy-vercel-staging.result != 'failure' )
+    needs: [deploy-vercel-staging]
+    # needs: [e2e-tests, deploy-vercel-staging]
+    # if: always() && ( needs.e2e-tests.result == 'success' || needs.deploy-vercel-staging.result == 'success') && ( needs.e2e-tests.result != 'failure' && needs.deploy-vercel-staging.result != 'failure' )
     environment:
       name: api STAGING
       url: https://offguard-staging.herokuapp.com
