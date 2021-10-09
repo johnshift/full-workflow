@@ -148,44 +148,6 @@ jobs:
   #         path: vercel-preview-url.txt
   #         retention-days: 1
 
-  check-artifact:
-    name: Check Artifact
-    # needs: [deploy-vercel]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Extract branch name
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        id: extract-branch
-      - name: echo branch
-        run: echo "branch = `${{ steps.extract-branch.outputs.branch }}`"
-      - name: Checkout API Branch
-        uses: actions/checkout@v2
-        with:
-          ref: ${{ steps.extract-branch.outputs.branch }}
-      
-      - name: "Write preview-url if deployment succeeded"
-        run: |
-          echo "hello" > vercel-preview-url.txt
-
-      - name: 'Upload Artifact'
-        uses: actions/upload-artifact@v2
-        with:
-          name: vercel-preview-url
-          path: vercel-preview-url.txt
-          retention-days: 1
-
-      - name: Download artifact
-        uses: dawidd6/action-download-artifact@v2
-        with:
-          name: vercel-preview-url
-          workflow: cicd.yml # workflow name
-          branch: ${{ steps.extract-branch.outputs.branch }}
-      - name: install tree
-        run: sudo apt install tree -y
-      - name: echo directory
-        run: tree -aL 2
-
   # deploy-heroku:
   #   name: Deploy api to Heroku
   #   runs-on: ubuntu-latest
@@ -228,43 +190,89 @@ jobs:
   #       id: set-url
   #       run: echo "::set-output name=url::${{ secrets.HEROKU_APP_URL }}"
 
-  # e2e-tests:
-  #   name:  End-to-End Tests
-  #   runs-on: ubuntu-latest
-  #   needs: [deploy-vercel, deploy-heroku]
-  #   # either one succeeds -> (needs.deploy-vercel.result == 'success' || steps.deploy-heroku.result == 'success')
-  #   # AND -> &&
-  #   # no failure -> (needs.deploy-vercel.result != 'failure' && steps.deploy-heroku.result != 'failure')
-  #   if: always() && (needs.deploy-vercel.result == 'success' || steps.deploy-heroku.result == 'success') && (needs.deploy-vercel.result != 'failure' && steps.deploy-heroku.result != 'failure')
-  #   steps:
-  #     - name: Extract branch name
-  #       shell: bash
-  #       run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-  #       id: extract-branch
+
+  deploy-heroku:
+    name: Fake deploy heroku
+    runs-on: ubuntu-latest
+    steps:
+      - name: succeeds
+        run: echo "succeed"
+
+
+  deploy-vercel:
+    name: Fake deploy vercel
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract-branch
+      - name: echo branch
+        run: echo "branch = `${{ steps.extract-branch.outputs.branch }}`"
+      - name: Checkout API Branch
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ steps.extract-branch.outputs.branch }}
+      
+      - name: "Write preview-url if deployment succeeded"
+        run: |
+          echo "hello" > vercel-preview-url.txt
+
+      - name: 'Upload Artifact'
+        uses: actions/upload-artifact@v2
+        with:
+          name: vercel-preview-url
+          path: vercel-preview-url.txt
+          retention-days: 1
+
+  e2e-tests:
+    name:  End-to-End Tests
+    runs-on: ubuntu-latest
+    needs: [deploy-vercel, deploy-heroku]
+    # either one succeeds -> (needs.deploy-vercel.result == 'success' || steps.deploy-heroku.result == 'success')
+    # AND -> &&
+    # no failure -> (needs.deploy-vercel.result != 'failure' && steps.deploy-heroku.result != 'failure')
+    if: always() && (needs.deploy-vercel.result == 'success' || steps.deploy-heroku.result == 'success') && (needs.deploy-vercel.result != 'failure' && steps.deploy-heroku.result != 'failure')
+    steps:
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract-branch
         
-  #     - name: Checkout API Branch
-  #       uses: actions/checkout@v2
-  #       with:
-  #         ref: ${{ steps.extract-branch.outputs.branch }}
+      - name: Checkout API Branch
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ steps.extract-branch.outputs.branch }}
 
-  #     - name: Setup Node
-  #       uses: actions/setup-node@v2
-  #       with:
-  #         node-version: '14'
-  #         cache: 'npm'
-  #         cache-dependency-path: ./e2e/package-lock.json
+      - name: Download artifact
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          name: vercel-preview-url
+          workflow: cicd.yml # workflow name
+          branch: ${{ steps.extract-branch.outputs.branch }}
+      - name: install tree
+        run: sudo apt install tree -y
+      - name: echo directory
+        run: tree -aL 2
 
-  #     - name: Build
-  #       working-directory: ./e2e
-  #       run: npm i
+      # - name: Setup Node
+      #   uses: actions/setup-node@v2
+      #   with:
+      #     node-version: '14'
+      #     cache: 'npm'
+      #     cache-dependency-path: ./e2e/package-lock.json
 
-  #     - name: Run End-to-End Tests
-  #       uses: cypress-io/github-action@v2
-  #       env:
-  #         CYPRESS_FRONTEND_URL: ${{ needs.deploy-vercel.outputs.preview-url }}
-  #       with:
-  #         wait-on: ${{ needs.deploy-vercel.outputs.preview-url }}
-  #         wait-on-timeout: 30
-  #         browser: chrome
-  #         headless: true
-  #         working-directory: e2e
+      # - name: Build
+      #   working-directory: ./e2e
+      #   run: npm i
+
+      # - name: Run End-to-End Tests
+      #   uses: cypress-io/github-action@v2
+      #   env:
+      #     CYPRESS_FRONTEND_URL: ${{ needs.deploy-vercel.outputs.preview-url }}
+      #   with:
+      #     wait-on: ${{ needs.deploy-vercel.outputs.preview-url }}
+      #     wait-on-timeout: 30
+      #     browser: chrome
+      #     headless: true
+      #     working-directory: e2e
