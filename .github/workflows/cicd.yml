@@ -163,18 +163,18 @@ jobs:
           name: vercel-preview-url
           path: vercel-preview-url.txt
           retention-days: 1
-      # - name: Extract branch name
-      #   shell: bash
-      #   run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-      #   id: extract-branch
-      # - name: echo branch
-      #   run: echo "branch = `${{ steps.extract-branch.outputs.branch }}`"
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract-branch
+      - name: echo branch
+        run: echo "branch = `${{ steps.extract-branch.outputs.branch }}`"
       - name: Download artifact
         uses: dawidd6/action-download-artifact@v2
         with:
           name: vercel-preview-url
           workflow: cicd.yml # workflow name
-          # branch: ${{ steps.extract-branch.outputs.branch }}
+          branch: ${{ steps.extract-branch.outputs.branch }}
           workflow_conclusion: ""
       - name: install tree
         run: sudo apt install tree -y
