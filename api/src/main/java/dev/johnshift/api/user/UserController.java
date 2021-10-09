@@ -33,6 +33,12 @@ public class UserController {
     return "FRONTEND_URL = " + FrontendURL;
   }
 
+  @GetMapping("/branch")
+  public String handleGetBranch() {
+
+    return "CICD!!!!";
+  }
+
   @GetMapping("/users")
   public List<UserDto> handleGetUsers() {
 
