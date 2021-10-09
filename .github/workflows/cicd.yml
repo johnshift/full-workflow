@@ -153,19 +153,19 @@ jobs:
     # needs: [deploy-vercel]
     runs-on: ubuntu-latest
     steps:
-      - name: Extract branch name
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        id: extract-branch
-      - name: echo branch
-        run: echo "branch = `${{ steps.extract-branch.outputs.branch }}`"
+      # - name: Extract branch name
+      #   shell: bash
+      #   run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+      #   id: extract-branch
+      # - name: echo branch
+      #   run: echo "branch = `${{ steps.extract-branch.outputs.branch }}`"
       - name: Download artifact
         uses: dawidd6/action-download-artifact@v2
         with:
           name: vercel-preview-url
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: CI/CD # workflow name
-          branch: ${{ steps.extract-branch.outputs.branch }}
+          # branch: ${{ steps.extract-branch.outputs.branch }}
       - name: install tree
         run: sudo apt install tree -y
       - name: echo directory
