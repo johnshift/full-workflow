@@ -223,7 +223,6 @@ jobs:
 
   api-tests:
     name: Fake API Tests 
-    if: ${{ 'one'  == 'two' }} # simulate skip
     runs-on: ubuntu-latest
     steps:
       - name: Success
@@ -231,6 +230,7 @@ jobs:
 
   deploy-vercel:
     name: Fake Deploy Vercel
+    if: ${{ 'one'  == 'two' }} # simulate skip
     runs-on: ubuntu-latest
     steps:
       - name: Success
