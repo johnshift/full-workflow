@@ -284,7 +284,7 @@ jobs:
 
 
   create-pull-request:
-    name: "[PR] main <- ${{ GITHUB_REF#refs/heads/ }}"
+    name: "Create pull request"
     runs-on: ubuntu-latest
     needs: [deploy-heroku-staging, deploy-vercel-staging]
     steps:
