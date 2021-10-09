@@ -193,12 +193,10 @@ jobs:
 
   deploy-heroku:
     name: Fake deploy heroku
-    # simulate skipping
-    if: ${{ 'xxx' == 'will never match this' }}
     runs-on: ubuntu-latest
     steps:
       - name: succeeds
-        run: echo "succeed"
+        run: exit 1
 
 
   deploy-vercel:
