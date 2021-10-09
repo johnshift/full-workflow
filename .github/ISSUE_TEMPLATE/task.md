@@ -1,7 +1,7 @@
 ---
 name: Task
 about: Issue for tracking tasks
-title: 'Task: <task_name>'
+title: "<task_name>"
 labels: task
 assignees: johnshift
 
@@ -10,10 +10,10 @@ assignees: johnshift
 ## Description
 <add_description_here>
 
-**Parent feature**: [<feature_name>](<feature_issue_link>)
+**Parent feature**: <issue_#_link>
 
 **Subtasks:**
 
-- [ ] [<task_name>](<link_issue>)
-- [ ] [<task_name>](<link_issue>)
-- [ ] [<task_name>](<link_issue>)
+- [ ] <issue_#_link>
+- [ ] <issue_#_link>
+- [ ] <issue_#_link>

@@ -1,18 +1,18 @@
 ---
 name: Feature
 about: Issue for tracking feature branch
-title: 'Feature: <feature_name>'
+title: "<feature_name>"
 labels: feature
 assignees: johnshift
 
 ---
 
 ## Description:
-Full automation for tests and deployments in this repo using github actions.
+<add_description_here>
 
-**Feature branch**: [origin / cicd](https://github.com/johnshift/offguard/tree/cicd)
+**Feature branch**: [origin / <feature_branch>](https://github.com/johnshift/offguard/tree/<feature_branch>)
 
 **Tasks**:
-- [ ] [<task_name>](<link_to_issue>)
-- [ ] [<task_name>](<link_to_issue>)
-- [ ] [<task_name>](<link_to_issue>)
+- [ ] <issue_#_link>
+- [ ] <issue_#_link>
+- [ ] <issue_#_link>
