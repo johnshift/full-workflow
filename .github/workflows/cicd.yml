@@ -30,6 +30,9 @@ jobs:
               - 'api/**'
             web:
               - 'web/**'
+    outputs:
+      api-changed: steps.filter-changes.outputs.api
+      web-changed: steps.filter-changes.outputs.web
 
   api-tests:
     name: Api CI Tests
@@ -109,16 +112,16 @@ jobs:
     needs: [detect-changes]
     steps:
       - name: Echo api changes
-        run: echo "api_changed = ${{ needs.detect-changes.steps.filter-changes.outputs.api }}"
+        run: echo "api_changed = `${{ needs.detect-changes.outputs.api }}`"
 
       - name: Echo api equality
-        run: echo ${{ needs.detect-changes.steps.filter-changes.outputs.api }} == 'true'
+        run: echo "`${{ needs.detect-changes.outputs.api }}` == 'true'"
 
       - name: Echo web changes
-        run: echo "web_changed = ${{ needs.detect-changes.steps.filter-changes.outputs.web }}"
+        run: echo "web_changed = `${{ needs.detect-changes.outputs.web }}`"
 
       - name: Echo web equality
-        run: echo ${{ needs.detect-changes.steps.filter-changes.outputs.web }} == 'true'
+        run: echo "`${{ needs.detect-changes.outputs.web }}` == 'true'"
   
   deploy-vercel:
     name: Deploy web to Vercel
