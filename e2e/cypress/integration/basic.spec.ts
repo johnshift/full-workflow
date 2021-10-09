@@ -4,4 +4,8 @@ describe('Frontend App', () => {
 
     cy.visit(frontendUrl);
   });
+
+  const two: number = 2;
+  const anotherTwo: number = 2;
+  assert(two === anotherTwo);
 });
