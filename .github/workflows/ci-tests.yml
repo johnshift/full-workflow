@@ -1,0 +1,23 @@
+name: CI Tests
+on:
+  workflow_dispatch:
+  push:
+    branches-ignore: [main, e2e]
+
+concurrency:
+  group: tests
+  cancel-in-progress: true
+
+jobs:
+
+  web-tests:
+    name: Web Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo branch name
+        run: echo "now on branch '${GITHUB_REF#refs/heads/}'"
+        
+      - name: Checkout repository feature branch
+        uses: actions/checkout@v2
+        with:
+          ref: ${GITHUB_REF#refs/heads/} 
