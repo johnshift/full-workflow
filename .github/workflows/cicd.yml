@@ -194,7 +194,7 @@ jobs:
   deploy-heroku:
     name: Fake deploy heroku
     # simulate skipping
-    if: ${{ GITHUB_TOKEN }} == 'will never match this'
+    if: ${{ secrets.GITHUB_TOKEN }} == 'will never match this'
     runs-on: ubuntu-latest
     steps:
       - name: succeeds
