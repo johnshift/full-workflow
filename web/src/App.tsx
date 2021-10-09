@@ -2,7 +2,6 @@ import React from 'react';
 
 const App = (): JSX.Element => (
   <div className="App">
-    <p>trigger change ...........</p>
     <h1>
       api url:
       {' '}
