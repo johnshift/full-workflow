@@ -204,24 +204,20 @@ jobs:
   deploy-vercel:
     name: Fake deploy vercel
     runs-on: ubuntu-latest
-    environment:
-      name: web TESTING
     steps:
       # - name: succeeds
       #   run: echo "succeed"
       - name: Change deployed url ENV
         uses: hmanzur/actions-set-secret@v2.0.0
         with:
-          name: 'VERCEL_DEPLOYED_URL'
-          value: 'some.example.com'
+          name: 'VERCEL_TESTING_URL'
+          value: 'google.com'
           token: ${{ secrets.PAT }}
 
   e2e-tests:
     name:  End-to-End Tests
     runs-on: ubuntu-latest
     needs: [deploy-vercel, deploy-heroku]
-    environment:
-      name: web TESTING
     # either one succeeds -> (needs.deploy-vercel.result == 'success' || steps.deploy-heroku.result == 'success')
     # AND -> &&
     # no failure -> (needs.deploy-vercel.result != 'failure' && steps.deploy-heroku.result != 'failure')
@@ -238,7 +234,7 @@ jobs:
       #     ref: ${{ steps.extract-branch.outputs.branch }}
 
       - name: test curl updated secret
-        run: curl ${{ secrets.VERCEL_DEPLOYED_URL }}
+        run: curl ${{ secrets.VERCEL_TESTING_URL }}
 
       # - name: Setup Node
       #   uses: actions/setup-node@v2
