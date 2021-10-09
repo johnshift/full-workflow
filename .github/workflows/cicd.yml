@@ -176,6 +176,7 @@ jobs:
           heroku_email: ${{ secrets.HEROKU_EMAIL }}
           heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
           appdir: api
+          branch: ${{ steps.extract-branch.outputs.branch }}
         # env:
         #   # note: "HD_" is needed to specify what to include in the deployed heroku app.
         #   #       However, it is only needed to differentiate from other environment variables.
