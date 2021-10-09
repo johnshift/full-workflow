@@ -31,8 +31,8 @@ jobs:
             web:
               - 'web/**'
     outputs:
-      api-changed: steps.filter-changes.outputs.api
-      web-changed: steps.filter-changes.outputs.web
+      api-changed: ${{ steps.filter-changes.outputs.api }}
+      web-changed: ${{ steps.filter-changes.outputs.web }}
 
   api-tests:
     name: Api CI Tests
