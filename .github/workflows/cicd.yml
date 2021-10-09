@@ -24,14 +24,16 @@ jobs:
           ref: ${{ steps.extract_branch.outputs.branch }}
           fetch-depth: 0
       
-      - name: Get changed files using defaults
-        id: changed-files
+      - name: Run changed-files with defaults on the dir1
+        id: changed-files-for-api
         uses: tj-actions/changed-files@v10
+        with:
+          path: api
         
-      - name: List all modified files
+      - name: List all added files in api
         run: |
-          for file in "${{ steps.changed-files.outputs.all_modified_files }}"; do
-            echo "$file was modified"
+          for file in "${{ steps.changed-files-for-api.outputs.added_files }}"; do
+            echo "`$file` was added"
           done
 
 
