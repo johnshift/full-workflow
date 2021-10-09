@@ -71,7 +71,7 @@ jobs:
   web-tests:
     name: Web CI Tests
     needs: [detect-changes]
-    if: ${{ needs.detect-changes.outputs.api }} == 'true'
+    if: ${{ needs.detect-changes.outputs.web }} == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Extract branch name
