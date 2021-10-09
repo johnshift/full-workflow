@@ -10,9 +10,10 @@ assignees: johnshift
 ## Description
 <add_description_here>
 
-## Subtasks (if any)
-- [ ] [<task_name>](<link_issue>)
-- [ ] [<task_name>](<link_issue>)
-- [ ] [<task_name>](<link_issue>)
+**Parent feature**: [<feature_name>](<feature_issue_link>)
 
-Parent feature: [<feature_name>](<feature_issue_link>)
+**Subtasks:**
+
+- [ ] [<task_name>](<link_issue>)
+- [ ] [<task_name>](<link_issue>)
+- [ ] [<task_name>](<link_issue>)
