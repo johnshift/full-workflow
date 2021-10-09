@@ -293,6 +293,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 <<<<<<< HEAD
+<<<<<<< HEAD
       - name: pull-request
         uses: repo-sync/pull-request@v2
         with:
@@ -324,3 +325,31 @@ jobs:
             pull request
           assignees: johnshift
 >>>>>>> removed base in pull request action
+=======
+      - name: pull-request
+        uses: repo-sync/pull-request@v2
+        with:
+          destination_branch: "main"                      
+          pr_title: "[PR] main <- ${{ steps.extract-branch.outputs.branch }}"
+          pr_body: |
+            Automated PR:
+            - close <issue_#_link>
+          pr_assignee: "johnshift"
+          pr_label: "pull request"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      # - name: Create Pull Request
+      #   uses: peter-evans/create-pull-request@v3
+      #   with:
+      #     token: ${{ secrets.PAT }}
+      #     commit-message: "[PR] main <- ${{ steps.extract-branch.outputs.branch }}"
+      #     # base: ${{ steps.extract-branch.outputs.branch }}
+      #     # branch: main
+      #     branch: ${{ steps.extract-branch.outputs.branch }}
+      #     title: 
+      #     body: |
+      #       Automated PR
+      #     labels: |
+      #       pull request
+      #     assignees: johnshift
+>>>>>>> switched actions to repo-sync
