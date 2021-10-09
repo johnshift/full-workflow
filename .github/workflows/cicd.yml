@@ -10,143 +10,143 @@ concurrency:
 
 jobs:
 
-  detect-changes:
-    name: Detect Changes
-    runs-on: ubuntu-latest
-    steps:
-      - name: Extract branch name
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        id: extract-branch  
-      - name: Checkout API Branch
-        uses: actions/checkout@v2
-        with:
-          ref: ${{ steps.extract-branch.outputs.branch }}
-          fetch-depth: 0
-      - name: Check changes on api
-        id: check-api
-        uses: tj-actions/changed-files@v10
-        with:
-          files: |
-            api
+  # detect-changes:
+  #   name: Detect Changes
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Extract branch name
+  #       shell: bash
+  #       run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+  #       id: extract-branch  
+  #     - name: Checkout API Branch
+  #       uses: actions/checkout@v2
+  #       with:
+  #         ref: ${{ steps.extract-branch.outputs.branch }}
+  #         fetch-depth: 0
+  #     - name: Check changes on api
+  #       id: check-api
+  #       uses: tj-actions/changed-files@v10
+  #       with:
+  #         files: |
+  #           api
 
-      - name: Check changes on web
-        id: check-web
-        uses: tj-actions/changed-files@v10
-        with:
-          files: |
-            web
+  #     - name: Check changes on web
+  #       id: check-web
+  #       uses: tj-actions/changed-files@v10
+  #       with:
+  #         files: |
+  #           web
     
-    outputs:
-      api: ${{ steps.check-api.outputs.any_changed }}
-      web: ${{ steps.check-web.outputs.any_changed }}
+  #   outputs:
+  #     api: ${{ steps.check-api.outputs.any_changed }}
+  #     web: ${{ steps.check-web.outputs.any_changed }}
 
-  api-tests:
-    name: Api CI Tests
-    needs: [detect-changes]
-    if: needs.detect-changes.outputs.api == 'true'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Extract branch name
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        id: extract-branch
+  # api-tests:
+  #   name: Api CI Tests
+  #   needs: [detect-changes]
+  #   if: needs.detect-changes.outputs.api == 'true'
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Extract branch name
+  #       shell: bash
+  #       run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+  #       id: extract-branch
         
-      - name: Checkout API Branch
-        uses: actions/checkout@v2
-        with:
-          ref: ${{ steps.extract-branch.outputs.branch }}
+  #     - name: Checkout API Branch
+  #       uses: actions/checkout@v2
+  #       with:
+  #         ref: ${{ steps.extract-branch.outputs.branch }}
 
-      - name: Setup PostgreSQL
-        run: |
-          sudo service postgresql start
-          sudo -u postgres psql -c "CREATE DATABASE ${{ secrets.CI_TESTS_DB_NAME }}"
-          sudo -u postgres psql -c "CREATE USER ${{ secrets.CI_TESTS_DB_USER }} WITH ENCRYPTED PASSWORD '${{ secrets.CI_TESTS_DB_PASS }}'"
-          sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE ${{ secrets.CI_TESTS_DB_NAME }} TO ${{ secrets.CI_TESTS_DB_USER }}"          
+  #     - name: Setup PostgreSQL
+  #       run: |
+  #         sudo service postgresql start
+  #         sudo -u postgres psql -c "CREATE DATABASE ${{ secrets.CI_TESTS_DB_NAME }}"
+  #         sudo -u postgres psql -c "CREATE USER ${{ secrets.CI_TESTS_DB_USER }} WITH ENCRYPTED PASSWORD '${{ secrets.CI_TESTS_DB_PASS }}'"
+  #         sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE ${{ secrets.CI_TESTS_DB_NAME }} TO ${{ secrets.CI_TESTS_DB_USER }}"          
 
-      - name: Setup Java
-        uses: actions/setup-java@v2
-        with:
-          distribution: 'adopt'
-          java-version: '11'
-          cache: 'maven'
+  #     - name: Setup Java
+  #       uses: actions/setup-java@v2
+  #       with:
+  #         distribution: 'adopt'
+  #         java-version: '11'
+  #         cache: 'maven'
 
-      - name: Run Unit + Integration Tests
-        working-directory: ./api
-        run: 'mvn clean install'
+  #     - name: Run Unit + Integration Tests
+  #       working-directory: ./api
+  #       run: 'mvn clean install'
 
-  web-tests:
-    name: Web CI Tests
-    needs: [detect-changes]
-    if: needs.detect-changes.outputs.web == 'true'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Extract branch name
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        id: extract-branch
+  # web-tests:
+  #   name: Web CI Tests
+  #   needs: [detect-changes]
+  #   if: needs.detect-changes.outputs.web == 'true'
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Extract branch name
+  #       shell: bash
+  #       run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+  #       id: extract-branch
 
-      - name: Checkout feature branch
-        uses: actions/checkout@v2
-        with:
-          ref: ${{ steps.extract-branch.outputs.branch }}
+  #     - name: Checkout feature branch
+  #       uses: actions/checkout@v2
+  #       with:
+  #         ref: ${{ steps.extract-branch.outputs.branch }}
 
-      - name: Setup Node
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-          cache: 'npm'
-          cache-dependency-path: ./web/package-lock.json
+  #     - name: Setup Node
+  #       uses: actions/setup-node@v2
+  #       with:
+  #         node-version: '14'
+  #         cache: 'npm'
+  #         cache-dependency-path: ./web/package-lock.json
 
-      - name: Build
-        working-directory: ./web
-        run: npm ci
+  #     - name: Build
+  #       working-directory: ./web
+  #       run: npm ci
 
-      - name: Run Tests
-        working-directory: ./web
-        run: npm run test
+  #     - name: Run Tests
+  #       working-directory: ./web
+  #       run: npm run test
    
-  deploy-vercel:
-    name: Deploy web to Vercel
-    runs-on: ubuntu-latest
-    needs: [web-tests]
-    environment:
-      name: web TESTING
-      url: ${{ steps.deploy.outputs.preview-url }}
-    outputs:
-      preview-url: ${{ steps.deploy.outputs.preview-url }}
-    steps:
-      - name: Extract branch name
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        id: extract-branch
+  # deploy-vercel:
+  #   name: Deploy web to Vercel
+  #   runs-on: ubuntu-latest
+  #   needs: [web-tests]
+  #   environment:
+  #     name: web TESTING
+  #     url: ${{ steps.deploy.outputs.preview-url }}
+  #   outputs:
+  #     preview-url: ${{ steps.deploy.outputs.preview-url }}
+  #   steps:
+  #     - name: Extract branch name
+  #       shell: bash
+  #       run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+  #       id: extract-branch
         
-      - name: Checkout API Branch
-        uses: actions/checkout@v2
-        with:
-          ref: ${{ steps.extract-branch.outputs.branch }}
+  #     - name: Checkout API Branch
+  #       uses: actions/checkout@v2
+  #       with:
+  #         ref: ${{ steps.extract-branch.outputs.branch }}
   
-      - name: "Deploy to vercel dev"
-        id: deploy
-        uses: amondnet/vercel-action@v20
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          scope: ${{ secrets.VERCEL_ORG_ID }} 
-          vercel-args: '-b REACT_APP_API_URL=${{ secrets.API_URL }}'
+  #     - name: "Deploy to vercel dev"
+  #       id: deploy
+  #       uses: amondnet/vercel-action@v20
+  #       with:
+  #         vercel-token: ${{ secrets.VERCEL_TOKEN }}
+  #         vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+  #         vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+  #         scope: ${{ secrets.VERCEL_ORG_ID }} 
+  #         vercel-args: '-b REACT_APP_API_URL=${{ secrets.API_URL }}'
 
-      - name: Update vercel url in secrets
-        uses: hmanzur/actions-set-secret@v2.0.0
-        with:
-          name: 'VERCEL_TESTING_URL'
-          value: ${{ steps.deploy.outputs.preview-url }}
-          token: ${{ secrets.PAT }}
+  #     - name: Update vercel url in secrets
+  #       uses: hmanzur/actions-set-secret@v2.0.0
+  #       with:
+  #         name: 'VERCEL_TESTING_URL'
+  #         value: ${{ steps.deploy.outputs.preview-url }}
+  #         token: ${{ secrets.PAT }}
 
   deploy-heroku:
     name: Deploy api to Heroku
     runs-on: ubuntu-latest
-    needs: [api-tests]
+    # needs: [api-tests]
     environment:
       name: api TESTING
       url: ${{ steps.set-url.outputs.url }}
@@ -175,6 +175,7 @@ jobs:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
           heroku_email: ${{ secrets.HEROKU_EMAIL }}
           heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
+          appdir: api
         # env:
         #   # note: "HD_" is needed to specify what to include in the deployed heroku app.
         #   #       However, it is only needed to differentiate from other environment variables.
@@ -185,46 +186,46 @@ jobs:
         id: set-url
         run: echo "::set-output name=url::${{ secrets.HEROKU_APP_URL }}"
 
-  e2e-tests:
-    name:  End-to-End Tests
-    runs-on: ubuntu-latest
-    needs: [deploy-vercel, deploy-heroku]
-    # either one succeeds -> (needs.deploy-vercel.result == 'success' || steps.deploy-heroku.result == 'success')
-    # AND -> &&
-    # no failure -> (needs.deploy-vercel.result != 'failure' && steps.deploy-heroku.result != 'failure')
-    if: always() && (needs.deploy-vercel.result == 'success' || needs.deploy-heroku.result == 'success') && (needs.deploy-vercel.result != 'failure' && needs.deploy-heroku.result != 'failure')
-    steps:
-      - name: Extract branch name
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        id: extract-branch
+  # e2e-tests:
+  #   name:  End-to-End Tests
+  #   runs-on: ubuntu-latest
+  #   needs: [deploy-vercel, deploy-heroku]
+  #   # either one succeeds -> (needs.deploy-vercel.result == 'success' || steps.deploy-heroku.result == 'success')
+  #   # AND -> &&
+  #   # no failure -> (needs.deploy-vercel.result != 'failure' && steps.deploy-heroku.result != 'failure')
+  #   if: always() && (needs.deploy-vercel.result == 'success' || needs.deploy-heroku.result == 'success') && (needs.deploy-vercel.result != 'failure' && needs.deploy-heroku.result != 'failure')
+  #   steps:
+  #     - name: Extract branch name
+  #       shell: bash
+  #       run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+  #       id: extract-branch
         
-      - name: Checkout API Branch
-        uses: actions/checkout@v2
-        with:
-          ref: ${{ steps.extract-branch.outputs.branch }}
+  #     - name: Checkout API Branch
+  #       uses: actions/checkout@v2
+  #       with:
+  #         ref: ${{ steps.extract-branch.outputs.branch }}
 
-      # - name: test curl updated secret
-      #   run: curl ${{ secrets.VERCEL_TESTING_URL }}
+  #     # - name: test curl updated secret
+  #     #   run: curl ${{ secrets.VERCEL_TESTING_URL }}
 
-      - name: Setup Node
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-          cache: 'npm'
-          cache-dependency-path: ./e2e/package-lock.json
+  #     - name: Setup Node
+  #       uses: actions/setup-node@v2
+  #       with:
+  #         node-version: '14'
+  #         cache: 'npm'
+  #         cache-dependency-path: ./e2e/package-lock.json
 
-      - name: Build
-        working-directory: ./e2e
-        run: npm i
+  #     - name: Build
+  #       working-directory: ./e2e
+  #       run: npm i
 
-      - name: Run End-to-End Tests
-        uses: cypress-io/github-action@v2
-        env:
-          CYPRESS_FRONTEND_URL: ${{ secrets.VERCEL_TESTING_URL }}
-        with:
-          wait-on: ${{ secrets.VERCEL_TESTING_URL }}
-          wait-on-timeout: 30
-          browser: chrome
-          headless: true
-          working-directory: ./e2e
+  #     - name: Run End-to-End Tests
+  #       uses: cypress-io/github-action@v2
+  #       env:
+  #         CYPRESS_FRONTEND_URL: ${{ secrets.VERCEL_TESTING_URL }}
+  #       with:
+  #         wait-on: ${{ secrets.VERCEL_TESTING_URL }}
+  #         wait-on-timeout: 30
+  #         browser: chrome
+  #         headless: true
+  #         working-directory: ./e2e
