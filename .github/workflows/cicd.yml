@@ -30,6 +30,10 @@ jobs:
               - 'api/**'
             web:
               - 'web/**'
+      - name: check if api changed
+        run: echo "api_change = `${{ steps.filter-changes.outputs.api }}`"
+      - name: check if web changed
+        run: echo "web_change = `${{ steps.filter-changes.outputs.web }}`"
     outputs:
       api: ${{ steps.filter-changes.outputs.api }}
       web: ${{ steps.filter-changes.outputs.web }}
