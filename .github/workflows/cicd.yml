@@ -232,7 +232,7 @@ jobs:
     # either one succeeds -> (needs.deploy-vercel.result == 'success' || steps.deploy-heroku.result == 'success')
     # AND -> &&
     # no failure -> (needs.deploy-vercel.result != 'failure' && steps.deploy-heroku.result != 'failure')
-    if: always() && (needs.deploy-vercel.result == 'success' || steps.deploy-heroku.result == 'success') && (needs.deploy-vercel.result != 'failure' && steps.deploy-heroku.result != 'failure')
+    if: always() && (needs.deploy-vercel.result == 'success' || needs.deploy-heroku.result == 'success') && (needs.deploy-vercel.result != 'failure' && needs.deploy-heroku.result != 'failure')
     steps:
       - name: Extract branch name
         shell: bash
