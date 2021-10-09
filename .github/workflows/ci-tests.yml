@@ -19,7 +19,22 @@ jobs:
         run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
         id: extract_branch
 
-      - name: Checkout repository feature branch
+      - name: Checkout feature branch
         uses: actions/checkout@v2
         with:
           ref: ${{ steps.extract_branch.outputs.branch }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          cache: 'npm'
+          cache-dependency-path: web/package-lock.json
+
+      - name: Build
+        working-directory: web
+        run: npm ci
+
+      - name: Run Tests
+        working-directory: web
+        run: npm run tests
