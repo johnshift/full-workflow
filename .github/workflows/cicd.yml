@@ -301,8 +301,9 @@ jobs:
         with:
           token: ${{ secrets.PAT }}
           commit-message: "[PR] main <- ${{ steps.extract-branch.outputs.branch }}"
-          base: ${{ steps.extract-branch.outputs.branch }}
-          branch: main
+          # base: ${{ steps.extract-branch.outputs.branch }}
+          # branch: main
+          branch: ${{ steps.extract-branch.outputs.branch }}
           title: "[PR] main <- ${{ steps.extract-branch.outputs.branch }}"
           body: |
             Automated PR
