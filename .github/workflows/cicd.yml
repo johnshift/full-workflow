@@ -150,6 +150,7 @@ jobs:
 
   check-artifact:
     name: Check Artifact
+    needs: [deploy-vercel]
     runs-on: ubuntu-latest
     steps:
       - name: Extract branch name
