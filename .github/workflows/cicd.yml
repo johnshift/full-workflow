@@ -10,8 +10,31 @@ concurrency:
 
 jobs:
 
+  detect-changes:
+    name: Detect Changes
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch  
+      - name: Checkout API Branch
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ steps.extract_branch.outputs.branch }}
+      - uses: dorny/paths-filter@v2
+        id: filter-changes
+        with:
+          filters: |
+            api:
+              - 'api/**'
+            web:
+              - 'web/**'
+
   api-tests:
     name: Api CI Tests
+    needs: [detect-changes]
+    if: needs.detect-changes.steps.filter-changes.outputs.api == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Extract branch name
@@ -44,6 +67,8 @@ jobs:
 
   web-tests:
     name: Web CI Tests
+    needs: [detect-changes]
+    if: needs.detect-changes.steps.filter-changes.outputs.web == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Extract branch name
@@ -82,7 +107,6 @@ jobs:
     name: Deploy web to Vercel
     runs-on: ubuntu-latest
     needs: [web-tests]
-    if: needs.web-tests.steps.filter-changes.outputs.web == 'true'
     environment:
       name: web TESTING
       url: ${{ steps.deploy.outputs.preview-url }}
