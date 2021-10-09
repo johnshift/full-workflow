@@ -252,10 +252,10 @@ jobs:
         uses: dawidd6/action-download-artifact@v2
         with:
           name: vercel-preview-url
-          # github_token: ${{ secrets.PAT }}
+          github_token: ${{ secrets.PAT }}
           workflow: cicd.yml # workflow name
           branch: ${{ steps.extract-branch.outputs.branch }}
-          # workflow_conclusion: ""
+          workflow_conclusion: ""
       - name: check contents of artifact
         run: cat vercel-preview-url.txt
 
