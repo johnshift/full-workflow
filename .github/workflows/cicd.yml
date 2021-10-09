@@ -153,6 +153,17 @@ jobs:
     # needs: [deploy-vercel]
     runs-on: ubuntu-latest
     steps:
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract-branch
+      - name: echo branch
+        run: echo "branch = `${{ steps.extract-branch.outputs.branch }}`"
+      - name: Checkout API Branch
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ steps.extract-branch.outputs.branch }}
+      
       - name: "Write preview-url if deployment succeeded"
         run: |
           echo "hello" > vercel-preview-url.txt
@@ -163,22 +174,17 @@ jobs:
           name: vercel-preview-url
           path: vercel-preview-url.txt
           retention-days: 1
-      # - name: Extract branch name
-      #   shell: bash
-      #   run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-      #   id: extract-branch
-      # - name: echo branch
-      #   run: echo "branch = `${{ steps.extract-branch.outputs.branch }}`"
-      # - name: Download artifact
-      #   uses: dawidd6/action-download-artifact@v2
-      #   with:
-      #     name: vercel-preview-url
-      #     workflow: cicd.yml # workflow name
-      #     branch: ${{ steps.extract-branch.outputs.branch }}
-      # - name: install tree
-      #   run: sudo apt install tree -y
-      # - name: echo directory
-      #   run: tree -aL 2
+
+      - name: Download artifact
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          name: vercel-preview-url
+          workflow: cicd.yml # workflow name
+          branch: ${{ steps.extract-branch.outputs.branch }}
+      - name: install tree
+        run: sudo apt install tree -y
+      - name: echo directory
+        run: tree -aL 2
 
   # deploy-heroku:
   #   name: Deploy api to Heroku
