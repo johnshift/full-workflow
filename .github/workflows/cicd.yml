@@ -35,8 +35,8 @@ jobs:
       - name: check if web changed
         run: echo "web_change = `${{ steps.filter-changes.outputs.web }}`"
     outputs:
-      api: ${{ steps.filter-changes.outputs.api }}
-      web: ${{ steps.filter-changes.outputs.web }}
+      api: steps.filter-changes.outputs.api
+      web: steps.filter-changes.outputs.web
 
   api-tests:
     name: Api CI Tests
