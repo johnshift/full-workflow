@@ -294,17 +294,29 @@ jobs:
         id: extract-branch
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v3
+      - name: pull-request
+        uses: repo-sync/pull-request@v2
         with:
-          token: ${{ secrets.PAT }}
-          commit-message: "[PR] main <- ${{ steps.extract-branch.outputs.branch }}"
-          # base: ${{ steps.extract-branch.outputs.branch }}
-          # branch: main
-          branch: ${{ steps.extract-branch.outputs.branch }}
-          title: "[PR] main <- ${{ steps.extract-branch.outputs.branch }}"
-          body: |
-            Automated PR
-          labels: |
-            pull request
-          assignees: johnshift
+          destination_branch: "main"                      
+          pr_title: "[PR] main <- ${{ steps.extract-branch.outputs.branch }}"
+          pr_body: |
+            Automated PR:
+            - close <issue_#_link>
+          pr_assignee: "johnshift"
+          pr_label: "pull request"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      # - name: Create Pull Request
+      #   uses: peter-evans/create-pull-request@v3
+      #   with:
+      #     token: ${{ secrets.PAT }}
+      #     commit-message: "[PR] main <- ${{ steps.extract-branch.outputs.branch }}"
+      #     # base: ${{ steps.extract-branch.outputs.branch }}
+      #     # branch: main
+      #     branch: ${{ steps.extract-branch.outputs.branch }}
+      #     title: 
+      #     body: |
+      #       Automated PR
+      #     labels: |
+      #       pull request
+      #     assignees: johnshift
