@@ -11,9 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: web PRODUCTION
-      url: ${{ steps.deploy.outputs.preview-url }}
-    outputs:
-      preview-url: ${{ steps.deploy.outputs.preview-url }}
+      url: https://offguard.vercel.app/
     steps:
       - name: Extract branch name
         shell: bash
@@ -32,12 +30,6 @@ jobs:
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           scope: ${{ secrets.VERCEL_ORG_ID }} 
           vercel-args: '--prod -b REACT_APP_API_URL=https://offguard.herokuapp.com'
-      - name: Update vercel url in secrets
-        uses: hmanzur/actions-set-secret@v2.0.0
-        with:
-          name: 'VERCEL_PRODUCTION_URL'
-          value: ${{ steps.deploy.outputs.preview-url }}
-          token: ${{ secrets.PAT }}
 
   deploy-heroku-production:
     if: github.event.pull_request.merged == true
@@ -77,4 +69,4 @@ jobs:
           #       However, it is only needed to differentiate from other environment variables.
           #       The "HD_" string will be stripped when the app starts. 
           #       Therefore you need to use "FRONTEND_URL" when accessing from inside the app.  
-          HD_FRONTEND_URL: ${{ secrets.VERCEL_PRODUCTION_URL }}
+          HD_FRONTEND_URL: https://offguard.vercel.app/
