@@ -9,13 +9,6 @@ jobs:
     if: github.event.pull_request.merged == true
     name: Vercel PRODUCTION
     runs-on: ubuntu-latest
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-    needs: [create-pull-request]
->>>>>>> deploy to production only when pull request merged
-=======
->>>>>>> removed deps on prod deploy
     environment:
       name: web PRODUCTION
       url: https://offguard.vercel.app/
@@ -42,13 +35,6 @@ jobs:
     if: github.event.pull_request.merged == true
     name: Heroku PRODUCTION
     runs-on: ubuntu-latest
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-    needs: [create-pull-request]
->>>>>>> deploy to production only when pull request merged
-=======
->>>>>>> removed deps on prod deploy
     environment:
       name: api PRODUCTION
       url: https://offguard.herokuapp.com

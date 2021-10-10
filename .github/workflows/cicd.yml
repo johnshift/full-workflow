@@ -40,15 +40,7 @@ jobs:
       web: ${{ steps.check-web.outputs.any_changed }}
 
   api-tests:
-<<<<<<< HEAD
-<<<<<<< HEAD
     name: Api Unit + Integration
-=======
-    name: Api CI Tests
->>>>>>> uncomment code
-=======
-    name: Api Unit + Integration
->>>>>>> trigger whole workflow
     needs: [detect-changes]
     if: needs.detect-changes.outputs.api == 'true'
     runs-on: ubuntu-latest
@@ -78,15 +70,7 @@ jobs:
         run: 'mvn clean install'
 
   web-tests:
-<<<<<<< HEAD
-<<<<<<< HEAD
     name: Web Unit + Integration
-=======
-    name: Web CI Tests
->>>>>>> uncomment code
-=======
-    name: Web Unit + Integration
->>>>>>> trigger whole workflow
     needs: [detect-changes]
     if: needs.detect-changes.outputs.web == 'true'
     runs-on: ubuntu-latest
@@ -113,15 +97,7 @@ jobs:
         run: npm run test
    
   deploy-vercel:
-<<<<<<< HEAD
-<<<<<<< HEAD
     name: Deploy Web to Vercel
-=======
-    name: Deploy web to Vercel
->>>>>>> uncomment code
-=======
-    name: Deploy Web to Vercel
->>>>>>> trigger whole workflow
     runs-on: ubuntu-latest
     needs: [web-tests]
     environment:
@@ -155,15 +131,7 @@ jobs:
           token: ${{ secrets.PAT }}
 
   deploy-heroku:
-<<<<<<< HEAD
-<<<<<<< HEAD
     name: Deploy Api to Heroku
-=======
-    name: Deploy api to Heroku
->>>>>>> uncomment code
-=======
-    name: Deploy Api to Heroku
->>>>>>> trigger whole workflow
     runs-on: ubuntu-latest
     needs: [api-tests]
     environment:
@@ -240,15 +208,7 @@ jobs:
           working-directory: ./e2e
 
   deploy-vercel-staging:
-<<<<<<< HEAD
-<<<<<<< HEAD
     name: Web STAGING
-=======
-    name: Vercel STAGING
->>>>>>> uncomment code
-=======
-    name: Web STAGING
->>>>>>> trigger whole workflow
     runs-on: ubuntu-latest
     needs: [e2e-tests]
     environment:
@@ -280,19 +240,9 @@ jobs:
           name: 'VERCEL_STAGING_URL'
           value: ${{ steps.deploy.outputs.preview-url }}
           token: ${{ secrets.PAT }}
-
-<<<<<<< HEAD
-<<<<<<< HEAD
+          
   deploy-heroku-staging:
     name: Api STAGING
-=======
-  deploy-heroku-staging:
-<<<<<<< HEAD
-    name: Heroku STAGING
->>>>>>> uncomment code
-=======
-    name: Api STAGING
->>>>>>> trigger whole workflow
     runs-on: ubuntu-latest
     needs: [e2e-tests]
     environment:
@@ -331,8 +281,6 @@ jobs:
           #       Therefore you need to use "FRONTEND_URL" when accessing from inside the app.  
           HD_FRONTEND_URL: ${{ secrets.VERCEL_STAGING_URL }}
 
-=======
->>>>>>> init deploy production
   create-pull-request:
     name: "Create pull request"
     runs-on: ubuntu-latest
@@ -344,12 +292,9 @@ jobs:
         id: extract-branch
       - name: Checkout
         uses: actions/checkout@v2
-<<<<<<< HEAD
-<<<<<<< HEAD
       - name: pull-request
         uses: repo-sync/pull-request@v2
         with:
-<<<<<<< HEAD
           destination_branch: "main"                      
           pr_title: "[PR] main <- ${{ steps.extract-branch.outputs.branch }}"
           pr_body: |
@@ -358,10 +303,6 @@ jobs:
           pr_assignee: "johnshift"
           pr_label: "pull request"
           github_token: ${{ secrets.GITHUB_TOKEN }}
-=======
-          fetch-depth: 0
-=======
->>>>>>> simplified checkout
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
@@ -376,8 +317,6 @@ jobs:
           labels: |
             pull request
           assignees: johnshift
->>>>>>> removed base in pull request action
-=======
       - name: pull-request
         uses: repo-sync/pull-request@v2
         with:
@@ -388,26 +327,8 @@ jobs:
             - close <issue_#_link>
           pr_assignee: "johnshift"
           pr_label: "pull request"
-<<<<<<< HEAD
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
-<<<<<<< HEAD
-      # - name: Create Pull Request
-      #   uses: peter-evans/create-pull-request@v3
-      #   with:
-      #     token: ${{ secrets.PAT }}
-      #     commit-message: "[PR] main <- ${{ steps.extract-branch.outputs.branch }}"
-      #     # base: ${{ steps.extract-branch.outputs.branch }}
-      #     # branch: main
-      #     branch: ${{ steps.extract-branch.outputs.branch }}
-      #     title: 
-      #     body: |
-      #       Automated PR
-      #     labels: |
-      #       pull request
-      #     assignees: johnshift
->>>>>>> switched actions to repo-sync
-=======
   deploy-vercel-production:
     name: Vercel PRODUCTION
     runs-on: ubuntu-latest
@@ -482,7 +403,3 @@ jobs:
           #       The "HD_" string will be stripped when the app starts. 
           #       Therefore you need to use "FRONTEND_URL" when accessing from inside the app.  
           HD_FRONTEND_URL: ${{ secrets.VERCEL_PRODUCTION_URL }}
->>>>>>> init deploy production
-=======
-          github_token: ${{ secrets.GITHUB_TOKEN }}
->>>>>>> cleanup cicd.yml
